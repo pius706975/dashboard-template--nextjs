@@ -1,7 +1,6 @@
 'use client';
 import { DashboardCard, RecentSales } from '@/components/cards/Dashboard';
 import OverviewChart from '@/components/chart/Overview';
-import { UserIcon } from '@/components/icons/dashboard/icons';
 import { Header } from '@/components/Navbar';
 import { chartData, salesData } from './data';
 
