@@ -8,6 +8,15 @@ import Input from './input/Input';
 const Navbar = ({ toggleSidebar }: { toggleSidebar: () => void }) => {
     const [searchOpen, setSearchOpen] = useState(false);
     const searchRef = useRef<HTMLDivElement>(null);
+    const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+    useEffect(() => {
+        const checkScreenSize = () => setIsSmallScreen(window.innerWidth < 640);
+        checkScreenSize();
+        window.addEventListener('resize', checkScreenSize);
+
+        return () => window.removeEventListener('resize', checkScreenSize);
+    }, []);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -37,18 +46,20 @@ const Navbar = ({ toggleSidebar }: { toggleSidebar: () => void }) => {
 
                 <div className="flex items-center space-x-4">
                     <div className="hidden sm:flex items-center gap-2">
-                        <Input
-                            type="text"
-                            placeholder="Search"
-                            onChange={() => {}}
-                        />
+                        <Input type="text" placeholder="Search" onChange={() => {}} />
+                        <button className="p-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg">
+                            <SearchIcon />
+                        </button>
                     </div>
 
-                    <button
-                        className="p-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg"
-                        onClick={() => setSearchOpen(true)}>
-                        <SearchIcon />
-                    </button>
+                    {isSmallScreen && (
+                        <button
+                            className="p-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg"
+                            onClick={() => setSearchOpen(true)}
+                        >
+                            <SearchIcon />
+                        </button>
+                    )}
 
                     <button className="p-2">
                         <DashboardIcon />
@@ -65,17 +76,14 @@ const Navbar = ({ toggleSidebar }: { toggleSidebar: () => void }) => {
                 </div>
             </header>
 
-            {searchOpen && (
+            {searchOpen && isSmallScreen && (
                 <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-50">
                     <div
                         ref={searchRef}
-                        className="bg-white dark:bg-black p-4 rounded-lg shadow-md w-3/4 max-w-lg">
+                        className="bg-white dark:bg-black p-4 rounded-lg shadow-md w-3/4 max-w-lg"
+                    >
                         <div className="flex gap-2">
-                            <Input
-                                type="text"
-                                placeholder="Search..."
-                                onChange={() => {}}
-                            />
+                            <Input type="text" placeholder="Search..." onChange={() => {}} />
                             <button className="p-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg">
                                 <SearchIcon />
                             </button>
