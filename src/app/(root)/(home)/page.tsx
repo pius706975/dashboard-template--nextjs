@@ -1,41 +1,18 @@
 'use client';
 import { DashboardCard, RecentSales } from '@/components/cards/Dashboard';
-import OverviewChart from '@/components/chart/Overview';
-import { Header } from '@/components/Navbar';
-import { chartData, salesData } from './data';
+import { Header, Header2 } from '@/components/Navbar';
+import {
+    cardData,
+    chartData,
+    currentYearEarnings,
+    lineChartlabels,
+    previousYearEarnings,
+    salesData,
+} from './data';
+import OverviewBarChart from '@/components/chart/Overview';
+import TotalEarningLineChart from '@/components/chart/TotalEarning';
 
 const Home = () => {
-    const cardData = [
-        {
-            title: 'Total Earning',
-            variable: '',
-            total: 500000.97,
-            trendTitle: 'Trend Title',
-            percentage: '+75.3',
-        },
-        {
-            title: 'Views',
-            variable: '+',
-            total: 122893,
-            trendTitle: 'Trend Title',
-            percentage: '+75.3',
-        },
-        {
-            title: 'Total Sales',
-            variable: '+',
-            total: 122893,
-            trendTitle: 'Trend Title',
-            percentage: '+75.3',
-        },
-        {
-            title: 'Subscriptions',
-            variable: '+',
-            total: 122893,
-            trendTitle: 'Trend Title',
-            percentage: '+75.3',
-        },
-    ];
-
     const formatNumber = (number: number, isCurrency: boolean = false) => {
         return new Intl.NumberFormat('en-US', {
             style: isCurrency ? 'currency' : 'decimal',
@@ -45,12 +22,8 @@ const Home = () => {
         }).format(number);
     };
 
-
-
     const labels = chartData.map(data => data.label);
     const datasets = chartData.map(data => data.value);
-
-
 
     return (
         <div>
@@ -75,9 +48,22 @@ const Home = () => {
 
                 <div className="grid grid-cols-1 xl:grid-cols-[2fr_1fr] gap-6 mt-6">
                     <div className="min-w-0">
-                        <OverviewChart labels={labels} datasets={datasets} />
+                        <OverviewBarChart labels={labels} datasets={datasets} />
                     </div>
                     <RecentSales salesData={salesData} />
+                </div>
+            </section>
+
+            <section>
+                <Header2 heading="Stats" />
+
+                <div className="grid grid-cols-1 xl:grid-cols-[2fr_1fr] gap-6 mt-6">
+                    <TotalEarningLineChart
+                        totalEarning={formatNumber(500000.97, true)}
+                        labels={lineChartlabels}
+                        currentYearEarnings={currentYearEarnings}
+                        previousYearEarnings={previousYearEarnings}
+                    />
                 </div>
             </section>
         </div>

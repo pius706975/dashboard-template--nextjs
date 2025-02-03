@@ -23,13 +23,13 @@ ChartJS.register(
     Filler,
 );
 
-interface OverviewChartProps {
+interface OverviewBarChartProps {
     labels: string[];
     datasets: number[];
 }
 
 
-const OverviewChart: React.FC<OverviewChartProps> = ({labels, datasets}) => {
+const OverviewBarChart: React.FC<OverviewBarChartProps> = ({labels, datasets}) => {
     const data = {
         labels: labels,
         datasets: [
@@ -78,8 +78,8 @@ const OverviewChart: React.FC<OverviewChartProps> = ({labels, datasets}) => {
         scales: {
             y: {
                 title: {
-                    display: true,
-                    text: '',
+                    display: false,
+                    text: 'Money',
                 },
                 display: true,
                 beginAtZero: true,
@@ -105,8 +105,8 @@ const OverviewChart: React.FC<OverviewChartProps> = ({labels, datasets}) => {
             },
             x: {
                 title: {
-                    display: true,
-                    text: '',
+                    display: false,
+                    text: 'Month',
                 },
                 display: true,
                 grid: {
@@ -132,4 +132,4 @@ const OverviewChart: React.FC<OverviewChartProps> = ({labels, datasets}) => {
     );
 };
 
-export default OverviewChart;
+export default OverviewBarChart;
