@@ -2,6 +2,7 @@
 import { DashboardCard, RecentSales } from '@/components/cards/Dashboard';
 import { Header, Header2 } from '@/components/Navbar';
 import {
+    augustWeeksExample,
     cardData,
     chartData,
     currentYearEarnings,
@@ -11,6 +12,7 @@ import {
 } from './data';
 import OverviewBarChart from '@/components/chart/Overview';
 import TotalEarningLineChart from '@/components/chart/TotalEarning';
+import TotalEarningBarChart from '@/components/chart/TotalEarningBar';
 
 const Home = () => {
     const formatNumber = (number: number, isCurrency: boolean = false) => {
@@ -63,6 +65,12 @@ const Home = () => {
                         labels={lineChartlabels}
                         currentYearEarnings={currentYearEarnings}
                         previousYearEarnings={previousYearEarnings}
+                    />
+
+                    <TotalEarningBarChart
+                        totalEarning={formatNumber(7500.00, true)}
+                        labels={augustWeeksExample.labels}
+                        datasets={augustWeeksExample.datasets}
                     />
                 </div>
             </section>

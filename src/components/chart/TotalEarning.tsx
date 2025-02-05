@@ -59,7 +59,7 @@ const TotalEarningLineChart: React.FC<LineChartProps> = ({
         labels,
         datasets: [
             {
-                label: 'Total Earnings This Year',
+                label: 'This Year',
                 data: currentYearEarnings,
                 fill: true,
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
@@ -69,7 +69,7 @@ const TotalEarningLineChart: React.FC<LineChartProps> = ({
                 pointHoverRadius: 6,
             },
             {
-                label: 'Total Earnings 2024',
+                label: '2024',
                 data: previousYearEarnings,
                 fill: true,
                 backgroundColor: 'rgba(75, 192, 192, 0.1)',
@@ -118,15 +118,27 @@ const TotalEarningLineChart: React.FC<LineChartProps> = ({
 
     return (
         <div
-            ref={chartContainerRef}
-            className="w-full max-w-5xl mx-auto p-5 bg-gray-200 dark:bg-[#151515] rounded-lg shadow-md border dark:border-gray-600 shadow-gray-400 dark:shadow-none">
-            <h1 className="text-xl sm:text-2xl font-semibold mb-4 dark:text-white">
-                Total Earnings {totalEarning}
-            </h1>
-            <div className="relative h-[clamp(250px,50vw,400px)]">
-                <Line data={data} options={options} width={chartWidth} />
-            </div>
-        </div>
+    ref={chartContainerRef}
+    className="w-full max-w-5xl mx-auto p-5 bg-gray-200 dark:bg-[#151515] rounded-lg shadow-md border dark:border-gray-600 shadow-gray-400 dark:shadow-none h-[clamp(200px,35vw,300px)]">
+    <div className='flex items-center gap-6'>
+        <p className="font-semibold text-gray-700 dark:text-white">
+            Total Earnings
+        </p>
+
+        <h1 className="text-xl sm:text-2xl font-semibold dark:text-white">
+            {totalEarning}
+        </h1>
+
+        <p className="text-xs">
+            trend title <span className="text-green-500">+ 75.3%</span>
+        </p>
+    </div>
+
+    <div className="h-[clamp(100px,25vw,210px)]">
+        <Line data={data} options={options} width={chartWidth} />
+    </div>
+</div>
+
     );
 };
 

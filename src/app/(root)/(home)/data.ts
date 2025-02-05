@@ -44,6 +44,11 @@ export const chartData = [
     { label: 'Dec', value: 3100 },
 ];
 
+export const augustWeeksExample = {
+    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+    datasets: [1800, 2200, 1400, 2100],
+};
+
 export const salesData = [
     {
         img: '',
