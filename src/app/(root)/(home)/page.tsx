@@ -6,13 +6,15 @@ import {
     cardData,
     chartData,
     currentYearEarnings,
+    DaysExample,
     lineChartlabels,
     previousYearEarnings,
     salesData,
 } from './data';
 import OverviewBarChart from '@/components/chart/Overview';
 import TotalEarningLineChart from '@/components/chart/TotalEarning';
-import TotalEarningBarChart from '@/components/chart/TotalEarningBar';
+import TotalEarningWeeklyChart from '@/components/chart/TotalEarningWeekly';
+import TotalEarningDailyChart from '@/components/chart/TotalEarningDaily';
 
 const Home = () => {
     const formatNumber = (number: number, isCurrency: boolean = false) => {
@@ -67,11 +69,18 @@ const Home = () => {
                         previousYearEarnings={previousYearEarnings}
                     />
 
-                    <TotalEarningBarChart
+                    <TotalEarningWeeklyChart
                         totalEarning={formatNumber(7500.00, true)}
                         labels={augustWeeksExample.labels}
                         datasets={augustWeeksExample.datasets}
                     />
+                </div>
+
+                <div className="grid grid-cols-1 xl:grid-cols-[2fr_1fr] gap-6 mt-6">
+                    <TotalEarningDailyChart
+                        labels={DaysExample.labels}
+                        datasets={DaysExample.datasets}
+                        totalEarning={formatNumber(2200.00, true)}/>
                 </div>
             </section>
         </div>

@@ -23,13 +23,13 @@ ChartJS.register(
     Filler,
 );
 
-interface TotalEarningBarChartProps {
+interface TotalEarningWeeklyChartProps {
     labels: string[];
     datasets: number[];
     totalEarning: string;
 }
 
-const TotalEarningBarChart: React.FC<TotalEarningBarChartProps> = ({
+const TotalEarningWeeklyChart: React.FC<TotalEarningWeeklyChartProps> = ({
     labels,
     datasets,
     totalEarning,
@@ -107,4 +107,4 @@ const TotalEarningBarChart: React.FC<TotalEarningBarChartProps> = ({
     );
 };
 
-export default TotalEarningBarChart;
+export default TotalEarningWeeklyChart;

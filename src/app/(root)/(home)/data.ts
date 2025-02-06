@@ -49,6 +49,11 @@ export const augustWeeksExample = {
     datasets: [1800, 2200, 1400, 2100],
 };
 
+export const DaysExample = {
+    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    datasets: [100, 500, 400, 150, 600, 50, 350]
+};
+
 export const salesData = [
     {
         img: '',

@@ -23,14 +23,16 @@ ChartJS.register(
     Filler,
 );
 
-interface OverviewBarChartProps {
+interface TotalEarningDailyChartProps {
     labels: string[];
     datasets: number[];
+    totalEarning: string;
 }
 
-const OverviewBarChart: React.FC<OverviewBarChartProps> = ({
+const TotalEarningDailyChart: React.FC<TotalEarningDailyChartProps> = ({
     labels,
     datasets,
+    totalEarning,
 }) => {
     const data = {
         labels: labels,
@@ -38,8 +40,8 @@ const OverviewBarChart: React.FC<OverviewBarChartProps> = ({
             {
                 label: '',
                 data: datasets,
-                backgroundColor: '#4095ff',
-                borderColor: '#4095ff',
+                backgroundColor: '#25bc5b',
+                borderColor: '#25bc5b',
                 borderWidth: 1,
                 barPercentage: 1,
                 borderRadius: {
@@ -51,6 +53,7 @@ const OverviewBarChart: React.FC<OverviewBarChartProps> = ({
     };
 
     const options = {
+        responsive: true,  // Make sure the chart is responsive
         scales: {
             y: {
                 title: {
@@ -60,7 +63,7 @@ const OverviewBarChart: React.FC<OverviewBarChartProps> = ({
                 display: true,
                 beginAtZero: true,
                 ticks: {
-                    stepSize: 1500,
+                    stepSize: 100,
                     min: 0,
                     max: 6000,
                     callback: (
@@ -82,7 +85,7 @@ const OverviewBarChart: React.FC<OverviewBarChartProps> = ({
             x: {
                 title: {
                     display: false,
-                    text: 'Month',
+                    text: 'Day',
                 },
                 display: true,
                 grid: {
@@ -99,13 +102,25 @@ const OverviewBarChart: React.FC<OverviewBarChartProps> = ({
     };
 
     return (
-        <div className="w-full max-w-4xl mx-auto p-4 bg-gray-200 dark:bg-[#151515] rounded-lg shadow-md border dark:border-gray-600 shadow-md shadow-gray-400 dark:shadow-none mx-2">
-            <h1 className="text-2xl font-semibold mb-4 dark:text-white">
-                Overview
-            </h1>
-            <Bar data={data} options={options} />
+        <div className="w-full max-w-4xl mx-auto p-4 bg-gray-200 dark:bg-[#151515] rounded-lg shadow-md border dark:border-gray-600 shadow-gray-400 dark:shadow-none mx-2 flex flex-col lg:flex-row gap-4">
+            <div className="bg-gray-200 dark:bg-[#151515] p-3 rounded-md flex-1">
+                <p className="font-semibold text-gray-700 dark:text-white">
+                    Total Earnings
+                </p>
+
+                <h1 className="text-xl sm:text-2xl font-semibold dark:text-white">
+                    {totalEarning}
+                </h1>
+
+                <p className="text-xs">
+                    trend title <span className="text-green-500">+ 75.3%</span>
+                </p>
+            </div>
+            <div className="w-full relative">
+                <Bar data={data} options={options} />
+            </div>
         </div>
     );
 };
 
-export default OverviewBarChart;
+export default TotalEarningDailyChart;
