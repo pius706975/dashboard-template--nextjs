@@ -10,7 +10,7 @@ import {
     Legend,
     Filler,
 } from 'chart.js';
-import { Bar } from 'react-chartjs-2';
+import { Bar, Line } from 'react-chartjs-2';
 
 ChartJS.register(
     CategoryScale,
@@ -26,74 +26,53 @@ ChartJS.register(
 interface TotalEarningDailyChartProps {
     labels: string[];
     datasets: number[];
-    totalEarning: string;
+    totalSubscriptions: string;
 }
 
 const TotalEarningDailyChart: React.FC<TotalEarningDailyChartProps> = ({
     labels,
     datasets,
-    totalEarning,
+    totalSubscriptions,
 }) => {
     const data = {
         labels: labels,
         datasets: [
             {
-                label: '',
+                label: 'Subscriptions',
                 data: datasets,
-                backgroundColor: '#25bc5b',
-                borderColor: '#25bc5b',
-                borderWidth: 1,
-                barPercentage: 1,
-                borderRadius: {
-                    topLeft: 5,
-                    topRight: 5,
-                },
+                borderColor: '#ffbd3e',
+                borderWidth: 2,
+                fill: false,
+                tension: 0, // Garis kaku
+                pointRadius: 3,
+                pointBackgroundColor: 'black',
             },
         ],
     };
 
     const options = {
+        maintainAspectRatio: false,
         responsive: true,
         scales: {
             y: {
-                title: {
-                    display: false,
-                    text: 'Money',
-                },
                 display: true,
                 beginAtZero: true,
                 ticks: {
-                    stepSize: 100,
-                    min: 0,
-                    max: 6000,
-                    callback: (
-                        tickValue: string | number,
-                        index: number,
-                        ticks: any[],
-                    ) => {
-                        if (typeof tickValue === 'number') {
-                            return `$${tickValue}`;
-                        } else {
-                            return tickValue;
-                        }
-                    },
+                    stepSize: 5000,
+                    callback: (tickValue: string | number) =>
+                        typeof tickValue === 'number' ? tickValue.toLocaleString() : tickValue,
                 },
                 grid: {
                     display: false,
                 },
             },
             x: {
-                title: {
-                    display: false,
-                    text: 'Day',
-                },
                 display: true,
                 grid: {
                     display: false,
                 },
             },
         },
-
         plugins: {
             legend: {
                 display: false,
@@ -102,22 +81,20 @@ const TotalEarningDailyChart: React.FC<TotalEarningDailyChartProps> = ({
     };
 
     return (
-        <div className="w-full max-w-4xl mx-auto p-4 bg-gray-200 dark:bg-[#151515] rounded-lg shadow-md border dark:border-gray-600 shadow-gray-400 dark:shadow-none mx-2 flex flex-col lg:flex-row gap-4">
-            <div className="bg-gray-200 dark:bg-[#151515] p-3 rounded-md flex-1">
+        <div className="w-full max-w-4xl mx-auto p-4 bg-gray-200 dark:bg-[#151515] rounded-lg shadow-md border dark:border-gray-600 shadow-gray-400 dark:shadow-none mx-2">
+            <div className="bg-gray-200 dark:bg-[#151515] p-3 rounded-md">
                 <p className="font-semibold text-gray-700 dark:text-white">
-                    Total Earnings
+                    Subscriptions
                 </p>
-
                 <h1 className="text-xl sm:text-2xl font-semibold dark:text-white">
-                    {totalEarning}
+                    {totalSubscriptions}
                 </h1>
-
                 <p className="text-xs">
                     trend title <span className="text-green-500">+ 75.3%</span>
                 </p>
             </div>
-            <div className="w-full relative">
-                <Bar data={data} options={options} />
+            <div className="h-60">
+                <Line data={data} options={options} />
             </div>
         </div>
     );
