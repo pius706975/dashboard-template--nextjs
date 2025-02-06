@@ -10,11 +10,13 @@ import {
     lineChartlabels,
     previousYearEarnings,
     salesData,
+    SubscriptionsChartData,
 } from './data';
 import OverviewBarChart from '@/components/chart/Overview';
 import TotalEarningLineChart from '@/components/chart/TotalEarning';
 import TotalEarningWeeklyChart from '@/components/chart/TotalEarningWeekly';
 import TotalEarningDailyChart from '@/components/chart/TotalEarningDaily';
+import SubscriptionLineChart from '@/components/chart/Subscription';
 
 const Home = () => {
     const formatNumber = (number: number, isCurrency: boolean = false) => {
@@ -70,7 +72,7 @@ const Home = () => {
                     />
 
                     <TotalEarningWeeklyChart
-                        totalEarning={formatNumber(7500.00, true)}
+                        totalEarning={formatNumber(7500.0, true)}
                         labels={augustWeeksExample.labels}
                         datasets={augustWeeksExample.datasets}
                     />
@@ -80,7 +82,14 @@ const Home = () => {
                     <TotalEarningDailyChart
                         labels={DaysExample.labels}
                         datasets={DaysExample.datasets}
-                        totalEarning={formatNumber(2200.00, true)}/>
+                        totalEarning={formatNumber(2200.0, true)}
+                    />
+
+                    <SubscriptionLineChart
+                        totalSubscriptions={formatNumber(112893.00, true)}
+                        labels={SubscriptionsChartData.labels}
+                        datasets={SubscriptionsChartData.last6Months}
+                    />
                 </div>
             </section>
         </div>

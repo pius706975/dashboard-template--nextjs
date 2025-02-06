@@ -175,7 +175,7 @@ export default function SignInPage() {
             {/* Right Side - Image */}
             <div className="w-1/2 hidden lg:block relative">
                 <Image
-                    src="/img/auth/bg2.jpg"
+                    src="/img/auth/bg.jpg"
                     alt="Background"
                     fill
                     className="object-cover"

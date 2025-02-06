@@ -122,3 +122,13 @@ export const currentYearEarnings: number[] = [
 export const previousYearEarnings: number[] = [
     38000.5, 36000.4, 29000.2, 43000.6, 35000.8, 47000.3, 21000.75, 42000.5, 40000.95, 59000.2, 38000.7, 44000.1,
 ];
+
+const monthlySubscriptions = [
+    9500, 10800, 8700, 9200, 11300, 9000,  
+    11000, 11500, 11100, 11600, 9600,
+];
+
+export const SubscriptionsChartData = {
+    last6Months: monthlySubscriptions.slice(-6),
+    labels: ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+}

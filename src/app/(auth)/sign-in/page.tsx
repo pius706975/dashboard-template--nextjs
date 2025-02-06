@@ -19,7 +19,17 @@ export default function SignInPage() {
 
         validateSignIn(email, password, setToastMessage);
 
-        console.log({ email, password });
+        const dummyUser = {
+            email: 'admin@admin.com',
+            password: 'adminpassword',
+        };
+    
+        if (email === dummyUser.email && password === dummyUser.password) {
+            localStorage.setItem('isLoggedIn', 'true');
+            window.location.href = '/';
+        } else {
+            setToastMessage('Invalid email or password');
+        }
     };
 
     useEffect(() => {
@@ -46,7 +56,7 @@ export default function SignInPage() {
                     </h1>
 
                     <p className="text-center dark:text-gray-300 text-gray-500">
-                        Sign Up For Free
+                        {`Use "admin@admin.com" and "adminpassword" to sign in`}
                     </p>
 
                     <form onSubmit={handleSubmit} className="mt-6 space-y-4">
