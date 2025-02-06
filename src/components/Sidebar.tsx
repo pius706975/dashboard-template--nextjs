@@ -11,7 +11,7 @@ import {
 } from '@/components/icons/sidebarIcons';
 import Link from 'next/link';
 import { useState, useEffect, JSX } from 'react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 interface SidebarProps {
     isOpen: boolean;
@@ -24,12 +24,14 @@ interface MenuItem {
     subMenu?: {
         name?: string;
         url?: string;
+        action?: () => void;
     }[];
     url?: string;
     key: string;
 }
 
 const Sidebar = ({ isOpen, toggleSidebar }: SidebarProps) => {
+    const router = useRouter();
     const pathname = usePathname();
     const [openDropdowns, setOpenDropdowns] = useState<Record<string, boolean>>(
         {
@@ -62,6 +64,11 @@ const Sidebar = ({ isOpen, toggleSidebar }: SidebarProps) => {
             ...prev,
             [menu]: !prev[menu],
         }));
+    };
+
+    const handleSignOut = async () => {
+        localStorage.removeItem('isLoggedIn');
+        router.push('/sign-in');
     };
 
     const menuItems: MenuItem[] = [
@@ -118,7 +125,7 @@ const Sidebar = ({ isOpen, toggleSidebar }: SidebarProps) => {
             key: 'finances',
         },
         {
-            title: 'Account Setting',
+            title: 'Account Settings',
             icon: <SettingsIcon />,
             subMenu: [
                 {
@@ -128,6 +135,10 @@ const Sidebar = ({ isOpen, toggleSidebar }: SidebarProps) => {
                 {
                     name: 'Security',
                     url: '/security',
+                },
+                {
+                    name: 'Sign Out',
+                    action: handleSignOut,
                 },
             ],
             key: 'account',
@@ -209,18 +220,25 @@ const Sidebar = ({ isOpen, toggleSidebar }: SidebarProps) => {
                             {subMenu && openDropdowns[key] && (
                                 <ul className="space-y-2 pl-8 text-sm mt-2">
                                     {subMenu.map((item, idx) => (
-                                        <Link
-                                            key={idx}
-                                            href={item.url as string}>
-                                            <li
-                                                className={`py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg ${
-                                                    pathname === item.url
-                                                        ? 'bg-gray-200 dark:bg-gray-700'
-                                                        : ''
-                                                }`}>
+                                        <li
+                                        key={idx}
+                                        className={`py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg ${
+                                            pathname === item.url
+                                                ? 'bg-gray-200 dark:bg-gray-700'
+                                                : ''
+                                        }`}>
+                                        {item.url ? (
+                                            <Link href={item.url}>
                                                 {item.name}
-                                            </li>
-                                        </Link>
+                                            </Link>
+                                        ) : (
+                                            <button
+                                                onClick={item.action}
+                                                className="w-full text-left">
+                                                {item.name}
+                                            </button>
+                                        )}
+                                    </li>
                                     ))}
                                 </ul>
                             )}

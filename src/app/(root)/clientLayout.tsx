@@ -1,12 +1,22 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Sidebar from '@/components/Sidebar';
 import { ThemeProvider } from 'next-themes';
+import { useRouter } from 'next/navigation';
 
 const ClientLayout = ({ children }: { children: React.ReactNode }) => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
+
+    const router = useRouter();
+
+    useEffect(() => {
+        const isLoggedIn = localStorage.getItem('isLoggedIn');
+        if (!isLoggedIn) {
+            router.push('/sign-in');
+        }
+    }, []);
 
     const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
