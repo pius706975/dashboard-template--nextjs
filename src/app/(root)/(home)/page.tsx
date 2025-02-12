@@ -7,7 +7,11 @@ import {
     chartData,
     currentYearEarnings,
     DaysExample,
+    decemberTotal,
+    decemberWeekly,
     lineChartlabels,
+    novemberTotal,
+    novemberWeekly,
     previousYearEarnings,
     salesData,
     SubscriptionsChartData,
@@ -17,6 +21,8 @@ import TotalEarningLineChart from '@/components/chart/TotalEarning';
 import TotalEarningWeeklyChart from '@/components/chart/TotalEarningWeekly';
 import TotalEarningDailyChart from '@/components/chart/TotalEarningDaily';
 import SubscriptionLineChart from '@/components/chart/Subscription';
+import ComparedTotalEarningInMonthChart from '@/components/chart/CompareTotalEarningInMonth';
+import ComparedTotalSalesInMonthChart from '@/components/chart/CompareTotalSalesInMonth';
 
 const Home = () => {
     const formatNumber = (number: number, isCurrency: boolean = false) => {
@@ -95,6 +101,52 @@ const Home = () => {
 
             <section>
                 <Header2 heading="Stats" />
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+                    <ComparedTotalEarningInMonthChart
+                    labels={['Nov', 'Dec']}
+                    totalEarning={formatNumber(500000.97, true)}
+                    lastMonthData={novemberWeekly}
+                    thisMonthData={decemberWeekly}
+                    />
+
+                    <ComparedTotalSalesInMonthChart
+                    labels={['Nov', 'Dec']}
+                    totalSales={formatNumber(112893.0, true)}
+                    lastMonthData={novemberWeekly}
+                    thisMonthData={decemberWeekly}
+                    />
+
+                    <ComparedTotalEarningInMonthChart
+                    labels={['Nov', 'Dec']}
+                    totalEarning={formatNumber(500000.97, true)}
+                    lastMonthData={novemberWeekly}
+                    thisMonthData={decemberWeekly}
+                    />
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+                    <ComparedTotalEarningInMonthChart
+                    labels={['Nov', 'Dec']}
+                    totalEarning={formatNumber(500000.97, true)}
+                    lastMonthData={novemberWeekly}
+                    thisMonthData={decemberWeekly}
+                    />
+
+                    <ComparedTotalEarningInMonthChart
+                    labels={['Nov', 'Dec']}
+                    totalEarning={formatNumber(500000.97, true)}
+                    lastMonthData={novemberWeekly}
+                    thisMonthData={decemberWeekly}
+                    />
+
+                    <ComparedTotalEarningInMonthChart
+                    labels={['Nov', 'Dec']}
+                    totalEarning={formatNumber(500000.97, true)}
+                    lastMonthData={novemberWeekly}
+                    thisMonthData={decemberWeekly}
+                    />
+                </div>
             </section>
         </div>
     );

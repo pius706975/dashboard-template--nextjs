@@ -73,7 +73,9 @@ const Navbar = ({ toggleSidebar }: { toggleSidebar: () => void }) => {
                     </button>
 
                     <div className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-300 dark:bg-gray-600">
-                        <UserIcon />
+                        {/* <UserIcon /> */}
+
+                        <img src='/img/profileimg/profilepicture.jpeg' className='rounded-full'/>
                     </div>
                     <ThemeChanger />
                 </div>

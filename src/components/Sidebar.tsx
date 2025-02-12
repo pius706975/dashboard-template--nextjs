@@ -59,6 +59,15 @@ const Sidebar = ({ isOpen, toggleSidebar }: SidebarProps) => {
         setOpenDropdowns(updatedDropdowns);
     }, [pathname]);
 
+    useEffect(() => {
+        const handleResize = () => {
+            setScreenWidth(window.innerWidth);
+        };
+    
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     const toggleDropdown = (menu: string) => {
         setOpenDropdowns(prev => ({
             ...prev,
