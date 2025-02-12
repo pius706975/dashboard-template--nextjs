@@ -1,6 +1,7 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
 import { useTheme } from 'next-themes';
+import { ApexOptions } from 'apexcharts';
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -16,8 +17,12 @@ const TotalEarningDailyChart: React.FC<TotalEarningDailyChartProps> = ({
     totalEarning,
 }) => {
     const { theme } = useTheme();
-    
-    const options = {
+
+    const isDarkMode = theme === 'dark';
+    const textColor = isDarkMode ? '#ffffff' : '#333333';
+    const gridColor = isDarkMode ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.1)';
+
+    const options: ApexOptions = {
         chart: {
             type: 'bar',
             toolbar: { show: false },
@@ -26,10 +31,12 @@ const TotalEarningDailyChart: React.FC<TotalEarningDailyChartProps> = ({
             categories: labels,
             axisBorder: { show: false },
             axisTicks: { show: false },
+            labels: { style: { colors: textColor } },
         },
         yaxis: {
             labels: {
                 formatter: (value: number) => `$${value}`,
+                style: { colors: textColor },
             },
         },
         fill: {
@@ -42,13 +49,15 @@ const TotalEarningDailyChart: React.FC<TotalEarningDailyChartProps> = ({
                 opacityFrom: 1,
                 opacityTo: 0.6,
                 stops: [0, 100],
-                colorStops: theme === 'dark' ? [
-                    { offset: 0, color: '#2296b3', opacity: 1 },
-                    { offset: 100, color: '#ffffff', opacity: 0.6 },
-                ] : [
-                    { offset: 0, color: '#25bc5b', opacity: 1 },
-                    { offset: 100, color: '#ffffff', opacity: 0.6 },
-                ],
+                colorStops: isDarkMode
+                    ? [
+                          { offset: 0, color: '#ffcc80', opacity: 1 },
+                          { offset: 100, color: '#ff9900', opacity: 0.6 },
+                      ]
+                    : [
+                          { offset: 0, color: '#00ff55', opacity: 1 },
+                          { offset: 100, color: '#00ff55', opacity: 0.6 },
+                      ],
             },
         },
         dataLabels: {
@@ -58,6 +67,16 @@ const TotalEarningDailyChart: React.FC<TotalEarningDailyChartProps> = ({
             bar: {
                 borderRadius: 5,
                 columnWidth: '60%',
+            },
+        },
+        grid: {
+            borderColor: gridColor,
+        },
+        tooltip: {
+            theme: isDarkMode ? 'dark' : 'light',
+            style: {
+                fontSize: '12px',
+                fontFamily: 'inherit',
             },
         },
     };
@@ -83,7 +102,12 @@ const TotalEarningDailyChart: React.FC<TotalEarningDailyChartProps> = ({
                 </p>
             </div>
             <div className="w-full relative">
-                <Chart options={options} series={series} type="bar" height={300} />
+                <Chart
+                    options={options}
+                    series={series}
+                    type="bar"
+                    height={300}
+                />
             </div>
         </div>
     );

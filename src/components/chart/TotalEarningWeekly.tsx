@@ -46,7 +46,7 @@ const TotalEarningWeeklyChart: React.FC<TotalEarningWeeklyChartProps> = ({
             show: false,
         },
         grid: {
-            show: false
+            show: false,
         },
         dataLabels: {
             enabled: false,
@@ -69,12 +69,23 @@ const TotalEarningWeeklyChart: React.FC<TotalEarningWeeklyChartProps> = ({
     return (
         <div className="w-full max-w-4xl mx-auto p-4 bg-gray-200 dark:bg-[#151515] rounded-lg shadow-md border dark:border-gray-600 shadow-gray-400 dark:shadow-none">
             <div className="bg-gray-200 dark:bg-[#151515] p-3 rounded-md">
-                <p className="font-semibold text-gray-700 dark:text-white">Total Earnings</p>
-                <h1 className="text-xl sm:text-2xl font-semibold dark:text-white">{totalEarning}</h1>
-                <p className="text-xs">trend title <span className="text-green-500">+ 75.3%</span></p>
+                <p className="font-semibold text-gray-700 dark:text-white">
+                    Total Earnings
+                </p>
+                <h1 className="text-xl sm:text-2xl font-semibold dark:text-white">
+                    {totalEarning}
+                </h1>
+                <p className="text-xs">
+                    trend title <span className="text-green-500">+ 75.3%</span>
+                </p>
             </div>
             <div>
-                <Chart options={chartOptions} series={[{ name: 'Earnings', data: datasets }]} type="bar" height={235} />
+                <Chart
+                    options={chartOptions}
+                    series={[{ name: 'Earnings', data: datasets }]}
+                    type="bar"
+                    height={235}
+                />
             </div>
         </div>
     );
