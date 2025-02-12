@@ -85,11 +85,11 @@ const Home = () => {
                         totalEarning={formatNumber(2200.0, true)}
                     />
 
-                    <SubscriptionLineChart
+                    {/* <SubscriptionLineChart
                         totalSubscriptions={formatNumber(112893.00, true)}
                         labels={SubscriptionsChartData.labels}
                         datasets={SubscriptionsChartData.last6Months}
-                    />
+                    /> */}
                 </div>
             </section>
         </div>

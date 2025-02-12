@@ -39,7 +39,7 @@ const Navbar = ({ toggleSidebar }: { toggleSidebar: () => void }) => {
 
     return (
         <>
-            <header className="fixed top-0 left-0 w-full dark:bg-black bg-white p-4 flex justify-between items-center">
+            <header className="z-10 fixed top-0 left-0 w-full dark:bg-black bg-white p-4 flex justify-between items-center">
                 <button onClick={toggleSidebar} className="">
                     ☰
                 </button>

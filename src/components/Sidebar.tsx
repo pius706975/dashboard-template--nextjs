@@ -162,7 +162,7 @@ const Sidebar = ({ isOpen, toggleSidebar }: SidebarProps) => {
 
     return (
         <aside
-            className={`fixed left-0 top-0 h-full w-64 dark:bg-black bg-white p-5 transition-transform ${
+            className={`z-50 fixed left-0 top-0 h-full w-64 dark:bg-black bg-white p-5 transition-transform ${
                 screenWidth >= 1024
                     ? 'translate-x-0'
                     : isOpen

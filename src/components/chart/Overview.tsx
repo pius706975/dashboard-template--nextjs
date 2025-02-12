@@ -1,27 +1,9 @@
 import React from 'react';
-import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend,
-    Filler,
-} from 'chart.js';
-import { Bar } from 'react-chartjs-2';
+import dynamic from 'next/dynamic';
+import { useTheme } from 'next-themes';
+import { ApexOptions } from 'apexcharts';
 
-ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend,
-    Filler,
-);
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 interface OverviewBarChartProps {
     labels: string[];
@@ -32,78 +14,72 @@ const OverviewBarChart: React.FC<OverviewBarChartProps> = ({
     labels,
     datasets,
 }) => {
-    const data = {
-        labels: labels,
-        datasets: [
-            {
-                label: '',
-                data: datasets,
-                backgroundColor: '#4095ff',
-                borderColor: '#4095ff',
-                borderWidth: 1,
-                barPercentage: 1,
-                borderRadius: {
-                    topLeft: 5,
-                    topRight: 5,
-                },
-            },
-        ],
-    };
+    const { theme } = useTheme();
+    const isDarkMode = theme === 'dark';
 
-    const options = {
-        scales: {
-            y: {
-                title: {
-                    display: false,
-                    text: 'Money',
-                },
-                display: true,
-                beginAtZero: true,
-                ticks: {
-                    stepSize: 1500,
-                    min: 0,
-                    max: 6000,
-                    callback: (
-                        tickValue: string | number,
-                        index: number,
-                        ticks: any[],
-                    ) => {
-                        if (typeof tickValue === 'number') {
-                            return `$${tickValue}`;
-                        } else {
-                            return tickValue;
-                        }
-                    },
-                },
-                grid: {
-                    display: false,
-                },
+    const options: ApexOptions = {
+        chart: {
+            type: 'bar',
+            toolbar: { show: false },
+        },
+        xaxis: {
+            categories: labels,
+            labels: { style: { colors: isDarkMode ? '#ffffff' : '#000000' } },
+            axisBorder: { show: false },
+            axisTicks: { show: false },
+        },
+        yaxis: {
+            labels: {
+                formatter: value => `$${value}`,
+                style: { colors: isDarkMode ? '#ffffff' : '#000000' },
             },
-            x: {
-                title: {
-                    display: false,
-                    text: 'Month',
-                },
-                display: true,
-                grid: {
-                    display: false,
-                },
+            axisBorder: { show: false },
+            axisTicks: { show: false },
+        },
+        plotOptions: {
+            bar: {
+                borderRadius: 5,
+                columnWidth: '60%',
             },
         },
-
-        plugins: {
-            legend: {
-                display: false,
+        tooltip: {
+            theme: isDarkMode ? 'dark' : 'light',
+        },
+        grid: {
+            show: false,
+        },
+        dataLabels: {
+            enabled: false,
+        },
+        fill: {
+            type: 'gradient',
+            gradient: {
+                shade: 'light',
+                type: 'vertical',
+                shadeIntensity: 0.5,
+                gradientToColors: [isDarkMode ? '#ffcc80' : '#80c1ff'],
+                inverseColors: false,
+                opacityFrom: 1,
+                opacityTo: 1,
+                stops: [0, 100],
             },
         },
     };
+
+    const series = [
+        {
+            name: 'Revenue',
+            data: datasets,
+            color: isDarkMode ? '#ff9900' : '#4095ff',
+        },
+    ];
 
     return (
-        <div className="w-full max-w-4xl mx-auto p-4 bg-gray-200 dark:bg-[#151515] rounded-lg shadow-md border dark:border-gray-600 shadow-md shadow-gray-400 dark:shadow-none mx-2">
+        <div className="w-full max-w-4xl mx-auto p-4 bg-gray-200 dark:bg-[#151515] rounded-lg shadow-md border dark:border-gray-600">
             <h1 className="text-2xl font-semibold mb-4 dark:text-white">
                 Overview
             </h1>
-            <Bar data={data} options={options} />
+            <Chart options={options} series={series} type="bar" height={350} />
         </div>
     );
 };

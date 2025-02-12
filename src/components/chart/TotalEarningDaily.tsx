@@ -1,27 +1,8 @@
 import React from 'react';
-import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend,
-    Filler,
-} from 'chart.js';
-import { Bar } from 'react-chartjs-2';
+import dynamic from 'next/dynamic';
+import { useTheme } from 'next-themes';
 
-ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend,
-    Filler,
-);
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 interface TotalEarningDailyChartProps {
     labels: string[];
@@ -34,72 +15,59 @@ const TotalEarningDailyChart: React.FC<TotalEarningDailyChartProps> = ({
     datasets,
     totalEarning,
 }) => {
-    const data = {
-        labels: labels,
-        datasets: [
-            {
-                label: '',
-                data: datasets,
-                backgroundColor: '#25bc5b',
-                borderColor: '#25bc5b',
-                borderWidth: 1,
-                barPercentage: 1,
-                borderRadius: {
-                    topLeft: 5,
-                    topRight: 5,
-                },
-            },
-        ],
-    };
-
+    const { theme } = useTheme();
+    
     const options = {
-        responsive: true,
-        scales: {
-            y: {
-                title: {
-                    display: false,
-                    text: 'Money',
-                },
-                display: true,
-                beginAtZero: true,
-                ticks: {
-                    stepSize: 100,
-                    min: 0,
-                    max: 6000,
-                    callback: (
-                        tickValue: string | number,
-                        index: number,
-                        ticks: any[],
-                    ) => {
-                        if (typeof tickValue === 'number') {
-                            return `$${tickValue}`;
-                        } else {
-                            return tickValue;
-                        }
-                    },
-                },
-                grid: {
-                    display: false,
-                },
-            },
-            x: {
-                title: {
-                    display: false,
-                    text: 'Day',
-                },
-                display: true,
-                grid: {
-                    display: false,
-                },
+        chart: {
+            type: 'bar',
+            toolbar: { show: false },
+        },
+        xaxis: {
+            categories: labels,
+            axisBorder: { show: false },
+            axisTicks: { show: false },
+        },
+        yaxis: {
+            labels: {
+                formatter: (value: number) => `$${value}`,
             },
         },
-
-        plugins: {
-            legend: {
-                display: false,
+        fill: {
+            type: 'gradient',
+            gradient: {
+                shade: 'light',
+                type: 'vertical',
+                shadeIntensity: 0.3,
+                inverseColors: false,
+                opacityFrom: 1,
+                opacityTo: 0.6,
+                stops: [0, 100],
+                colorStops: theme === 'dark' ? [
+                    { offset: 0, color: '#2296b3', opacity: 1 },
+                    { offset: 100, color: '#ffffff', opacity: 0.6 },
+                ] : [
+                    { offset: 0, color: '#25bc5b', opacity: 1 },
+                    { offset: 100, color: '#ffffff', opacity: 0.6 },
+                ],
+            },
+        },
+        dataLabels: {
+            enabled: false,
+        },
+        plotOptions: {
+            bar: {
+                borderRadius: 5,
+                columnWidth: '60%',
             },
         },
     };
+
+    const series = [
+        {
+            name: 'Earnings',
+            data: datasets,
+        },
+    ];
 
     return (
         <div className="w-full max-w-4xl mx-auto p-4 bg-gray-200 dark:bg-[#151515] rounded-lg shadow-md border dark:border-gray-600 shadow-gray-400 dark:shadow-none mx-2 flex flex-col lg:flex-row gap-4">
@@ -107,17 +75,15 @@ const TotalEarningDailyChart: React.FC<TotalEarningDailyChartProps> = ({
                 <p className="font-semibold text-gray-700 dark:text-white">
                     Total Earnings
                 </p>
-
                 <h1 className="text-xl sm:text-2xl font-semibold dark:text-white">
                     {totalEarning}
                 </h1>
-
                 <p className="text-xs">
                     trend title <span className="text-green-500">+ 75.3%</span>
                 </p>
             </div>
             <div className="w-full relative">
-                <Bar data={data} options={options} />
+                <Chart options={options} series={series} type="bar" height={300} />
             </div>
         </div>
     );
