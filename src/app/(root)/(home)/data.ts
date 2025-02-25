@@ -49,6 +49,11 @@ export const augustWeeksExample = {
     datasets: [1800, 2200, 1400, 2100],
 };
 
+export const novemberSumExample = {
+    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+    datasets: [400, 250, 389, 361],
+};
+
 export const DaysExample = {
     labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
     datasets: [100, 500, 400, 150, 600, 50, 350]
@@ -132,3 +137,20 @@ export const SubscriptionsChartData = {
     last6Months: monthlySubscriptions.slice(-6),
     labels: ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 }
+
+export const novemberTotal = 1400;
+export const decemberTotal = 3100; 
+
+export const novemberWeekly = [
+    Math.round(novemberTotal * 0.30),
+    Math.round(novemberTotal * 0.15),
+    Math.round(novemberTotal * 0.10),
+    Math.round(novemberTotal * 0.45),
+];
+
+export const decemberWeekly = [
+    Math.round(decemberTotal * 0.10),
+    Math.round(decemberTotal * 0.15),
+    Math.round(decemberTotal * 0.55),
+    Math.round(decemberTotal * 0.20),
+];

@@ -1,27 +1,11 @@
-import React from 'react';
-import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend,
-    Filler,
-} from 'chart.js';
-import { Bar } from 'react-chartjs-2';
+'use client';
 
-ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend,
-    Filler,
-);
+import React from 'react';
+import dynamic from 'next/dynamic';
+import { useTheme } from 'next-themes';
+import { ApexOptions } from 'apexcharts';
+
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 interface TotalEarningWeeklyChartProps {
     labels: string[];
@@ -34,74 +18,74 @@ const TotalEarningWeeklyChart: React.FC<TotalEarningWeeklyChartProps> = ({
     datasets,
     totalEarning,
 }) => {
-    const data = {
-        labels: labels,
-        datasets: [
-            {
-                label: '',
-                data: datasets,
-                backgroundColor: '#25bc5b',
-                borderColor: '#25bc5b',
-                borderWidth: 1,
-                barPercentage: 0.8, 
-                borderRadius: {
-                    topLeft: 5,
-                    topRight: 5,
-                },
-            },
-        ],
-    };
+    const { theme } = useTheme();
+    const isDarkMode = theme === 'dark';
 
-    const options = {
-        maintainAspectRatio: false, 
-        responsive: true,
-        scales: {
-            y: {
-                display: false,
-                beginAtZero: true,
-                ticks: {
-                    stepSize: 2000,
-                    min: 0,
-                    max: 8000,
-                    callback: (tickValue: string | number) =>
-                        typeof tickValue === 'number' ? `$${tickValue}` : tickValue,
-                },
-                grid: {
-                    display: false,
-                },
-            },
-            x: {
-                display: true,
-                grid: {
-                    display: false,
-                },
+    const chartOptions: ApexOptions = {
+        chart: {
+            type: 'bar',
+            toolbar: { show: false },
+        },
+        plotOptions: {
+            bar: {
+                columnWidth: '50%',
+                borderRadius: 5,
             },
         },
-        plugins: {
-            legend: {
-                display: false,
+        xaxis: {
+            categories: labels,
+            labels: {
+                style: {
+                    colors: isDarkMode ? '#fff' : '#333',
+                },
+            },
+            axisBorder: { show: false },
+            axisTicks: { show: false },
+        },
+        yaxis: {
+            show: false,
+        },
+        grid: {
+            show: false,
+        },
+        dataLabels: {
+            enabled: false,
+        },
+        fill: {
+            type: 'gradient',
+            gradient: {
+                shade: 'light',
+                type: 'vertical',
+                gradientToColors: isDarkMode ? ['#9aff9a'] : ['#00ff55'],
+                stops: [0, 100],
             },
         },
+        tooltip: {
+            theme: isDarkMode ? 'dark' : 'light',
+        },
+        colors: ['#25bc5b', '#1e9c49'],
     };
 
     return (
-        <div className="w-full max-w-4xl mx-auto p-4 bg-gray-200 dark:bg-[#151515] rounded-lg shadow-md border dark:border-gray-600 shadow-gray-400 dark:shadow-none mx-2">
+        <div className="w-full max-w-4xl mx-auto p-4 bg-gray-200 dark:bg-[#151515] rounded-lg shadow-md border dark:border-gray-600 shadow-gray-400 dark:shadow-none">
             <div className="bg-gray-200 dark:bg-[#151515] p-3 rounded-md">
                 <p className="font-semibold text-gray-700 dark:text-white">
                     Total Earnings
                 </p>
-
                 <h1 className="text-xl sm:text-2xl font-semibold dark:text-white">
                     {totalEarning}
                 </h1>
-
                 <p className="text-xs">
                     trend title <span className="text-green-500">+ 75.3%</span>
                 </p>
             </div>
-
-            <div className="">
-                <Bar data={data} options={options} />
+            <div>
+                <Chart
+                    options={chartOptions}
+                    series={[{ name: 'Earnings', data: datasets }]}
+                    type="bar"
+                    height={235}
+                />
             </div>
         </div>
     );
